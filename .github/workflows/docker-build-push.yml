@@ -37,5 +37,3 @@ jobs:
         run: |
           docker push public.ecr.aws/q4k9i1z4/keeker:latest
 
-      - name: Output the image name
-        run: echo "Docker Image Name: public.ecr.aws/q4k9i1z4/keeker:latest"

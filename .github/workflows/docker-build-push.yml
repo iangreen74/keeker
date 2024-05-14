@@ -19,15 +19,23 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          aws-region: us-east-1  # Ensure this matches your ECR region
 
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
-
-      - name: Build, tag, and push image to Amazon ECR
+      - name: Login to Amazon ECR Public
         run: |
-          echo "Building image for ${{ steps.login-ecr.outputs.registry }}/keeker:latest"
-          docker build -t ${{ steps.login-ecr.outputs.registry }}/keeker:latest .
-          docker push ${{ steps.login-ecr.outputs.registry }}/keeker:latest
+          aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/q4k9i1z4
 
+      - name: Build Docker image
+        run: |
+          docker build -t keeker .
+
+      - name: Tag Docker image
+        run: |
+          docker tag keeker:latest public.ecr.aws/q4k9i1z4/keeker:latest
+
+      - name: Push Docker image to ECR
+        run: |
+          docker push public.ecr.aws/q4k9i1z4/keeker:latest
+
+      - name: Output the image name
+        run: echo "Docker Image Name: public.ecr.aws/q4k9i1z4/keeker:latest"

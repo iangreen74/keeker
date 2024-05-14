@@ -31,5 +31,3 @@ jobs:
           docker build -t ${{ steps.login-ecr.outputs.registry }}/keeker:latest .
           docker push ${{ steps.login-ecr.outputs.registry }}/keeker:latest
 
-      - name: Output the image name
-        run: echo "Docker Image Name: ${{ steps.login-ecr.outputs.registry }}/keeker:latest"

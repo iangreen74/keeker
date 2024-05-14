@@ -35,9 +35,5 @@ jobs:
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
-      - name: Output the image name
-        run: echo "Docker Image Name: ${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG}"
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: keeker  # Ensure this is the same as above
-          IMAGE_TAG: latest
+
+          
